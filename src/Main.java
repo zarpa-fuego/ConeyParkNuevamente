@@ -1,4 +1,5 @@
 import Utils.Colors;
+
 import java.time.LocalDate;
 import java.util.Scanner;
 
@@ -10,6 +11,8 @@ public class Main {
         String usernameSystem = scanner.nextLine();
         System.out.println(Colors.ANSI_CYAN + "Ingrese Nueva Clave del sistema del sistema" + Colors.ANSI_RESET);
         String passwordSystem = scanner.nextLine();
+        System.out.println("Ingrese la edad del usuario");
+        String edad = scanner.nextLine();
         clearConsole();
 
 
@@ -204,74 +207,66 @@ public class Main {
     }
 
     public static Double precioJuego(int juegoOpcion) {
-        return switch (juegoOpcion) {
-            case 1 -> 3.30;
-            case 2 -> 3.20;
-            case 3 -> 3.20;
-            case 4 -> 3.80;
-            case 5 -> 3.80;
-            case 6 -> 3.20;
-            case 7 -> 3.30;
-            case 8 -> 3.80;
-            case 9 -> 3.70;
-            case 10 -> 3.20;
-            case 11 -> 4.20;
-            case 12 -> 3.30;
-            case 13 -> 3.20;
-            case 14 -> 3.20;
-            case 15 -> 3.20;
-            case 16 -> 4.20;
-            case 17 -> 4.20;
-            case 18 -> 3.20;
-            case 19 -> 3.20;
-            case 20 -> 3.20;
-            case 21 -> 3.20;
-            case 22 -> 3.20;
-            case 23 -> 3.20;
-            case 24 -> 3.20;
-            case 25 -> 4.20;
-            case 26 -> 3.20;
-            case 27 -> 2.70;
-            case 28 -> 7.00;
-            default -> 0.0;
-
-        };
-
+        Double[] juegos = listaJuegos();
+        for (int i = 0; i < juegos.length; i++) {
+            if ( juegoOpcion - 1 == i){
+                return juegos[i];
+            }
+        }
+        return 0.0;
     }
-    public static String nombreJuego(int juegoOpcion) {
-        return switch (juegoOpcion) {
-            case 1 -> "Barquito";
-            case 2 -> "Monkey";
-            case 3 -> "Xball";
-            case 4 -> "Dolphin";
-            case 5 -> "Racing";
-            case 6 -> "DuoDrive";
-            case 7 -> "FrenziII";
-            case 8 -> "Carousel";
-            case 9 -> "Piratas";
-            case 10 -> "SkyLander";
-            case 11 -> "BigTeeth";
-            case 12 -> "Lane";
-            case 13 -> "CrazyHoop";
-            case 14 -> "Deal";
-            case 15 -> "DinoPop";
-            case 16 -> "Funny";
-            case 17 -> "Jungle";
-            case 18 -> "CarBatman";
-            case 19 -> "UltraRace";
-            case 20 -> "CrazySped";
-            case 21 -> "Coconut";
-            case 22 -> "MotoGP";
-            case 23 -> "Batman";
-            case 24 -> "Ghost";
-            case 25 -> "AfterDark";
-            case 26 -> "FunkyCats";
-            case 27 -> "CongoBong";
-            case 28 -> "ChoqueCar";
+    public static String nombreJuego (int juegoOpcion){
+        String[] juegos = listaNombresJuegos();
+        for (int i = 0; i < juegos.length; i++){
+            if (juegoOpcion - 1== i){
+                return juegos[i];
+            }
+        }
+        return "Juego no disponible";
+    }
 
-            default -> "No existe Juego";
+    public static Double[] listaJuegos() {
+        Double[] juegos = new Double[28];
+        juegos[0] = 3.30;
+        juegos[1] = 3.20;
+        juegos[2] = 3.20;
+        juegos[3] = 3.80;
+        juegos[4] = 3.80;
+        juegos[5] = 3.20;
+        juegos[6] = 3.30;
+        juegos[7] = 3.80;
+        juegos[8] = 3.70;
+        juegos[9] = 3.20;
+        juegos[10] = 4.20;
+        juegos[11] = 3.30;
+        juegos[12] = 3.20;
+        juegos[13] = 3.20;
+        juegos[14] = 3.20;
+        juegos[15] = 4.20;
+        juegos[16] = 4.20;
+        juegos[17] = 3.20;
+        juegos[18] = 3.20;
+        juegos[19] = 3.20;
+        juegos[20] = 3.20;
+        juegos[21] = 3.20;
+        juegos[22] = 3.20;
+        juegos[23] = 3.20;
+        juegos[24] = 4.20;
+        juegos[25] = 3.20;
+        juegos[26] = 2.70;
+        juegos[27] = 7.00;
+        return juegos;
+    }
+
+
+    public static String[] listaNombresJuegos() {
+        return new String[]{
+                "Barquito", "Monkey", "Xball", "Dolphin", "Racing", "DuoDrive",
+                "FrenziII", "Carousel", "Piratas", "SkyLander", "BigTeeth", "Lane",
+                "CrazyHoop", "Deal", "DinoPop", "Funny", "Jungle", "CarBatman",
+                "UltraRace", "CrazySped", "Coconut", "MotoGP", "Batman", "Ghost",
+                "AfterDark", "FunkyCats", "CongoBong", "ChoqueCar"
         };
-
     }
 
 
