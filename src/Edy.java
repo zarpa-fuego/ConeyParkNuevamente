@@ -1,4 +1,4 @@
-/*import java.util.Scanner;
+import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -15,10 +15,10 @@ public class Crear_Tarjeta {
         tarjeta.fedad();
     }
 
-    public String fedad() {
+    public void fedad() {
         Scanner usuario = new Scanner(System.in);
         System.out.println("-------------Bienvenido---------------");
-        System.out.println("¿Quiere crear su tarjeta Coney? ");
+        System.out.println("¿Quiere crear su tarjeta Coney?");
         System.out.println("SI/NO");
         String respuesta = usuario.next().toUpperCase();
 
@@ -55,10 +55,9 @@ public class Crear_Tarjeta {
         }
 
         usuario.close();
-        return null;
     }
 
-    public String fDatosCliente() {
+    public void fDatosCliente() {
         Scanner butch = new Scanner(System.in);
         System.out.println("Ingrese la cantidad de personas a reservar tarjeta");
         cant_person = butch.nextInt();
@@ -80,72 +79,41 @@ public class Crear_Tarjeta {
             System.out.println("Ingrese su sexo");
             sexo[i] = butch.nextLine();
         }
-        return null;
     }
 
     public String fTarjeta() {
         Scanner frull = new Scanner(System.in);
         System.out.println("Seleccione su tarjeta:");
-        System.out.println("Marque 1 para tarjeta simple \nMarque 2 para tarjeta doble");
+        System.out.println("Marque 1 para tarjeta simple");
 
         opcion = frull.nextInt();
         String resultado = "";
 
-        switch (opcion) {
-            case 1:
-                if (cant_person == 1) {
-                    resultado = "Ha seleccionado una tarjeta simple para 1 persona.";
-                } else if (cant_person > 1) {
-                    resultado = "La tarjeta simple no es válida para más de 1 persona.";
-                }
-                break;
-
-            case 2:
-                if (cant_person <= 2) {
-                    resultado = "Ha seleccionado una tarjeta doble para " + cant_person + " personas.";
-                } else {
-                    resultado = "La tarjeta doble no es válida para más de 2 personas.";
-                }
-                break;
-
-            default:
-                resultado = "Opción no válida.";
-                break;
+        if (opcion == 1) {
+            if (cant_person == 1) {
+                resultado = "Ha seleccionado una tarjeta simple para 1 persona.";
+            } else {
+                resultado = "La tarjeta simple no es válida para más de 1 persona.";
+            }
+        } else {
+            resultado = "Opción no válida.";
         }
 
-        frull.close();
         return resultado;
     }
 
     public double fPago() {
         double subtotal, igv, totalpagar = 0;
         if (opcion == 1) {
-            igv = (cant_person * 50) * 0.18;
-            subtotal = (cant_person * 50)-igv;
+            subtotal = cant_person * 50;
+            igv = subtotal * 0.18;
             totalpagar = subtotal + igv;
             System.out.println("--------------------------------");
             System.out.println("SUBTOTAL " + subtotal);
             System.out.println("IGV " + igv);
             System.out.println("TOTAL A PAGAR " + totalpagar);
             System.out.println("--------------------------------");
-
-        } else if (opcion == 2) {
-            igv = (cant_person * 80) * 0.18;
-            subtotal = (cant_person * 50)-igv;
-            totalpagar = subtotal + igv;
-            System.out.println("SUBTOTAL " + subtotal);
-            System.out.println("IGV " + igv);
-            System.out.println("TOTAL A PAGAR " + totalpagar);
-        } else if (opcion == 3) {
-            igv = (cant_person * 100) * 0.18;
-            subtotal = (cant_person * 50)-igv;
-            totalpagar = subtotal + igv;
-            System.out.println("SUBTOTAL " + subtotal);
-            System.out.println("IGV " + igv);
-            System.out.println("TOTAL A PAGAR " + totalpagar);
         }
         return totalpagar;
     }
 }
-
- */
