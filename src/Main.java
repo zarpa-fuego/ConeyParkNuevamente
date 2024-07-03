@@ -1,9 +1,13 @@
 import Utils.Colors;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.Random;
 
 public class Main {
+
     private int cant_person;
     private int opcion;
     private String[] nombres;
@@ -11,6 +15,7 @@ public class Main {
     private String[] dni;
     private String[] sexo;
     public static void main(String[] args) {
+        List<String> comentarios = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
 
         System.out.println(Colors.ANSI_CYAN + "Ingrese Nuevo usuario del sistema" + Colors.ANSI_RESET);
@@ -82,6 +87,28 @@ public class Main {
                                     break;
                                     case 1: {
                                         tarjetaMonto = crearVenta(tarjetaMonto);
+                                    }
+                                    break;
+                                }
+
+                            } while (opc != 0);
+                        }
+                        break;
+                        case 3: {
+                            do {
+                                printMenuComentarios();
+                                opc = scanner.nextInt();
+                                switch (opc) {
+                                    case 0: {
+                                        System.out.println(Colors.ANSI_RED + "Volver atrar" + Colors.ANSI_RESET);
+                                    }
+                                    break;
+                                    case 1: {
+                                        comentarios = agregarComentarios(comentarios);
+                                    }
+                                    break;
+                                    case 2: {
+                                        verComentarios(comentarios);
                                     }
                                     break;
                                 }
@@ -212,6 +239,7 @@ public class Main {
         cualProducto();
         Scanner opcproducto = new Scanner(System.in);
         int productoEscogido = opcproducto.nextInt();
+        Double  tarjetaN;
         switch (productoEscogido) {
             case 1:
                 printJuegosDisponibles();
@@ -221,11 +249,13 @@ public class Main {
                 String producto = nombreJuego(opcJuego);
                 if (tarjeta > precio) {
                     imprimirBoleta(precio, producto);
-                    return restarSaldoTareta(tarjeta, precio);
+                    tarjetaN    =restarSaldoTareta(tarjeta, precio);
+                    //return restarSaldoTareta(tarjeta, precio);
                 } else {
                     System.out.println(Colors.ANSI_RED + "Ud. No tiene Saldo" + Colors.ANSI_RESET);
-                    return tarjeta;
-                }
+                    tarjetaN=tarjeta;
+                    //return tarjeta;
+                }break;
             case 2:
                 printComidasDisponibles();
                 Scanner sc2 = new Scanner(System.in);
@@ -234,13 +264,27 @@ public class Main {
                 String producto1 = nombreComida(opcComida);
                 if (tarjeta > precio1) {
                     imprimirBoleta(precio1, producto1);
-                    return restarSaldoTareta(tarjeta, precio1);
+                    tarjetaN=restarSaldoTareta(tarjeta, precio1);
+                    //return restarSaldoTareta(tarjeta, precio1);
                 } else {
                     System.out.println(Colors.ANSI_RED + "Ud. No tiene Saldo" + Colors.ANSI_RESET);
-                    return tarjeta;
+                    tarjetaN=tarjeta;
+                   // return tarjeta;
+                }break;
+            case 3:
+                if (tarjeta > 1){
+                    tarjetaN=jugar(tarjeta);
+                    //return tarjeta;
+                } else {
+                    System.out.println(Colors.ANSI_RED + "Ud. No tiene Saldo" + Colors.ANSI_RESET);
+                    tarjetaN=tarjeta;
                 }
+                break;
+            default:
+                tarjetaN=tarjeta;
+
         }
-        return tarjeta;
+        return tarjetaN;
     }
 
     public static Double restarSaldoTareta(Double tarjeta, Double precio) {
@@ -258,9 +302,10 @@ public class Main {
         System.out.println(Colors.ANSI_GREEN + "╔══════════════════════════════╗" + Colors.ANSI_RESET);
         System.out.println(Colors.ANSI_GREEN + "║          Menú Principal      ║" + Colors.ANSI_RESET);
         System.out.println(Colors.ANSI_GREEN + "╠══════════════════════════════╣" + Colors.ANSI_RESET);
-        System.out.println(Colors.ANSI_GREEN + "║    Gestion Tarjeta    1      ║" + Colors.ANSI_RESET);
-        System.out.println(Colors.ANSI_GREEN + "║    Gestión Ventas     2      ║" + Colors.ANSI_RESET);
-        System.out.println(Colors.ANSI_GREEN + "║    Salir              4      ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║   Gestion Tarjeta     1      ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║   Gestión Ventas      2      ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║   Gestión Comentarios 3      ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║   Salir               4      ║" + Colors.ANSI_RESET);
         System.out.println(Colors.ANSI_GREEN + "╚══════════════════════════════╝" + Colors.ANSI_RESET);
         System.out.println(Colors.ANSI_BLUE + "ingrese opción: " + Colors.ANSI_RESET);
 
@@ -274,7 +319,16 @@ public class Main {
         System.out.println(Colors.ANSI_GREEN + "║    Volver              0     ║" + Colors.ANSI_RESET);
         System.out.println(Colors.ANSI_GREEN + "╚══════════════════════════════╝" + Colors.ANSI_RESET);
         System.out.println(Colors.ANSI_BLUE + "ingrese opción: " + Colors.ANSI_RESET);
-
+    }
+    public static void printMenuComentarios() {
+        System.out.println(Colors.ANSI_GREEN + "╔══════════════════════════════╗" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║        Menú Comentario       ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "╠══════════════════════════════╣" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║    Crear Comentario    1     ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║    Ver Comentario      2     ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║    Volver              0     ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "╚══════════════════════════════╝" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_BLUE + "ingrese opción: " + Colors.ANSI_RESET);
     }
 
     public static void printMenuTarjeta() {
@@ -290,11 +344,11 @@ public class Main {
     }
 
     public static void cualProducto() {
-        System.out.println(Colors.ANSI_GREEN + "╔══════════════════════════════╗" + Colors.ANSI_RESET);
-        System.out.println(Colors.ANSI_GREEN + "║       ¿Què le vendemos?      ║" + Colors.ANSI_RESET);
-        System.out.println(Colors.ANSI_GREEN + "╠══════════════════════════════╣" + Colors.ANSI_RESET);
-        System.out.println(Colors.ANSI_GREEN + "║  1. Juegos   ║  2. Comidas   ║" + Colors.ANSI_RESET);
-        System.out.println(Colors.ANSI_GREEN + "╚══════════════════════════════╝" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "╔═══════════════════════════════════════════╗" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║             ¿Què le vendemos?             ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "╠═══════════════════════════════════════════╣" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║ 1. Juegos ║ 2. Comidas  ║ 3. Juega y Gana ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "╚═══════════════════════════════════════════╝" + Colors.ANSI_RESET);
     }
 
     public static void printJuegosDisponibles() {
@@ -483,7 +537,18 @@ public class Main {
         return comidas;
     }
 
-
+    public static List <String> agregarComentarios(List <String> comentarios){
+        System.out.println("Ingrese comentario");
+        Scanner sc = new Scanner(System.in);
+        String comentario = sc.nextLine();
+        comentarios.add(comentario);
+        return comentarios;
+    }
+    public static void verComentarios (List <String> comentarios){
+        for (String comentario : comentarios){
+            System.out.println(comentario);
+        }
+    }
     public static Double recargarSaldo(Double tarjeta) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Su saldo actual es : " + Colors.ANSI_BLUE + tarjeta + Colors.ANSI_RESET);
@@ -510,7 +575,77 @@ public class Main {
         System.out.println(Colors.ANSI_BLUE + "Total " + String.format("%.2f", total) + Colors.ANSI_RESET);
         System.out.println(Colors.ANSI_PURPLE + "===========================================================" + Colors.ANSI_RESET);
     }
+    public static Double jugar(Double tarjeta) {
+        tarjeta = tarjeta - 1.00;
+        System.out.println("Le costó -1 sol");
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
 
+        int jugador = 0;
+        int maquina = 0;
+        int triunfo = 0;
+        int perdidas = 0;
+
+        while (triunfo < 3 && perdidas < 3) {
+            System.out.println("Elige 1 como piedra, 2 como papel y 3 como tijera:");
+            jugador = scanner.nextInt();
+            maquina = aletorio(1, 3);
+
+            System.out.println("Tu elegiste " + eleccion(jugador));
+            System.out.println("La maquina eligió " + eleccion(maquina));
+
+            if (jugador == maquina) {
+                System.out.println("Hubo un empate.");
+            } else if (jugador == 1 && maquina == 3) {
+                triunfo++;
+                System.out.println("Te sumamos 1 punto.");
+            } else if (jugador == 2 && maquina == 1) {
+                triunfo++;
+                System.out.println("Te sumamos 1 punto.");
+            } else if (jugador == 3 && maquina == 2) {
+                triunfo++;
+                System.out.println("Te sumamos 1 punto.");
+            } else {
+                perdidas++;
+                System.out.println("Tu oponente tiene 1 punto.");
+            }
+        }
+        if (triunfo == 3) {
+            System.out.println("Ganaste " + triunfo + " veces. Perdiste " + perdidas + " veces.");
+            tarjeta = tarjeta + 5.00;
+            System.out.println("Su saldo actual es : " + Colors.ANSI_BLUE + tarjeta + Colors.ANSI_RESET);
+            imprimirBoleta(5.00, "Partida Ganada");
+        }
+        else {
+            System.out.println("Ganaste " + triunfo + " veces. Perdiste " + perdidas + " veces.");
+            System.out.println("Perdiste");
+        }
+        return tarjeta;
+    }
+
+    private static int aletorio(int min, int max) {
+        Random random = new Random();
+        return random.nextInt((max - min) + 1) + min;
+    }
+
+    private static String eleccion(int jugada) {
+        String resultado = "";
+        switch (jugada) {
+            case 1:
+                resultado = "Piedra.";
+                break;
+            case 2:
+                resultado = "Papel.";
+                break;
+            case 3:
+                resultado = "Tijera.";
+                break;
+            default:
+                resultado = "mal.";
+                break;
+        }
+        return resultado;
+    }
     public static void clearConsole() {
         for (int i = 0; i < 50; i++) {
             System.out.println();
