@@ -182,7 +182,6 @@ public class Main {
         } else {
             resultado = "Opción no válida.";
         }
-
         return resultado;
     }
 
