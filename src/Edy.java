@@ -1,4 +1,4 @@
-import java.util.Scanner;
+/*import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -147,3 +147,5 @@ public class Crear_Tarjeta {
         return totalpagar;
     }
 }
+
+ */

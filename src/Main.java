@@ -107,18 +107,38 @@ public class Main {
 
 
     public static Double crearVenta(Double tarjeta) {
-        printJuegosDisponibles();
-        Scanner sc = new Scanner(System.in);
-        int opcJuego = sc.nextInt();
-        Double precio = precioJuego(opcJuego);
-        String producto = nombreJuego(opcJuego);
-        if (tarjeta > precio) {
-            imprimirBoleta(precio, producto);
-            return restarSaldoTareta(tarjeta, precio);
-        } else {
-            System.out.println(Colors.ANSI_RED + "Ud. No tiene Saldo" + Colors.ANSI_RESET);
-            return tarjeta;
+        cualProducto();
+        Scanner opcproducto = new Scanner(System.in);
+        int productoEscogido = opcproducto.nextInt();
+        switch (productoEscogido) {
+            case 1:
+                printJuegosDisponibles();
+                Scanner sc = new Scanner(System.in);
+                int opcJuego = sc.nextInt();
+                Double precio = precioJuego(opcJuego);
+                String producto = nombreJuego(opcJuego);
+                if (tarjeta > precio) {
+                    imprimirBoleta(precio, producto);
+                    return restarSaldoTareta(tarjeta, precio);
+                } else {
+                    System.out.println(Colors.ANSI_RED + "Ud. No tiene Saldo" + Colors.ANSI_RESET);
+                    return tarjeta;
+                }
+            case 2:
+                printComidasDisponibles();
+                Scanner sc2 = new Scanner(System.in);
+                int opcComida = sc2.nextInt();
+                Double precio1 = precioComida(opcComida);
+                String producto1 = nombreComida(opcComida);
+                if (tarjeta > precio1) {
+                    imprimirBoleta(precio1, producto1);
+                    return restarSaldoTareta(tarjeta, precio1);
+                } else {
+                    System.out.println(Colors.ANSI_RED + "Ud. No tiene Saldo" + Colors.ANSI_RESET);
+                    return tarjeta;
+                }
         }
+        return tarjeta;
     }
 
     public static Double restarSaldoTareta(Double tarjeta, Double precio) {
@@ -167,6 +187,14 @@ public class Main {
 
     }
 
+    public static void cualProducto() {
+        System.out.println(Colors.ANSI_GREEN + "╔══════════════════════════════╗" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║       ¿Què le vendemos?      ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "╠══════════════════════════════╣" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║  1. Juegos   ║  2. Comidas   ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "╚══════════════════════════════╝" + Colors.ANSI_RESET);
+    }
+
     public static void printJuegosDisponibles() {
         System.out.println(Colors.ANSI_GREEN + "╔══════════════════════════════╗" + Colors.ANSI_RESET);
         System.out.println(Colors.ANSI_GREEN + "║      Juegos Disponibles      ║" + Colors.ANSI_RESET);
@@ -202,27 +230,75 @@ public class Main {
         System.out.println(Colors.ANSI_GREEN + "║ 27  ║  CongoBong║  2.70      ║" + Colors.ANSI_RESET);
         System.out.println(Colors.ANSI_GREEN + "║ 28  ║  ChoqueCar║  7.00      ║" + Colors.ANSI_RESET);
         System.out.println(Colors.ANSI_GREEN + "╚══════════════════════════════╝" + Colors.ANSI_RESET);
+    }
 
-
+    public static void printComidasDisponibles() {
+        System.out.println(Colors.ANSI_GREEN + "╔═══════════════════════════════════╗" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║         Comidas Disponibles       ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "╠═══════════════════════════════════╣" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║ OPC ║     Comidas        ║ Precio ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "╠═══════════════════════════════════╣" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║  1  ║    Pizza Grande    ║  30.00 ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║  2  ║   Pizza Familiar   ║  50.00 ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║  3  ║Hamburguesa de Pollo║   5.00 ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║  4  ║   Helado Sublime   ║   3.00 ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║  5  ║    Helado Trika    ║   2.00 ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║  6  ║  Helado Chocolate  ║   3.50 ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║  7  ║  Helado Vainilla   ║   3.50 ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║  8  ║    Helado Fresa    ║   3.50 ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║  9  ║     Raspidilla     ║   3.00 ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║  10 ║    Gaseosa Pepsi   ║   3.00 ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║  11 ║  Gaseosa Cocacola  ║   2.50 ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║  12 ║  Gaseosa Inkacola  ║   2.50 ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║  13 ║ Halgodón de Azúcar ║   2.00 ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║  14 ║      Popcorn       ║   3.00 ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║  15 ║ Chocolate Princesa ║   2.50 ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║  16 ║    Papitas Lays    ║   1.50 ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║  17 ║  Papitas Picantes  ║   1.50 ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║  18 ║    Galleta Oreo    ║   1.00 ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║  19 ║    Galeta Casino   ║   1.00 ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║  20 ║       Empanada     ║   3.00 ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "╚═══════════════════════════════════╝" + Colors.ANSI_RESET);
     }
 
     public static Double precioJuego(int juegoOpcion) {
         Double[] juegos = listaJuegos();
         for (int i = 0; i < juegos.length; i++) {
-            if ( juegoOpcion - 1 == i){
+            if (juegoOpcion - 1 == i) {
                 return juegos[i];
             }
         }
         return 0.0;
     }
-    public static String nombreJuego (int juegoOpcion){
+
+    public static String nombreJuego(int juegoOpcion) {
         String[] juegos = listaNombresJuegos();
-        for (int i = 0; i < juegos.length; i++){
-            if (juegoOpcion - 1== i){
+        for (int i = 0; i < juegos.length; i++) {
+            if (juegoOpcion - 1 == i) {
                 return juegos[i];
             }
         }
         return "Juego no disponible";
+    }
+
+    public static Double precioComida(int opcComida) {
+        Double[] comidas = listaComidas();
+        for (int i = 0; i < comidas.length; i++) {
+            if (opcComida - 1 == i) {
+                return comidas[i];
+            }
+        }
+        return 0.0;
+    }
+
+    public static String nombreComida(int opcComida) {
+        String[] comidas = listaNombresComidas();
+        for (int i = 0; i < comidas.length; i++) {
+            if (opcComida - 1 == i) {
+                return comidas[i];
+            }
+        }
+        return "Comida no disponible";
     }
 
     public static Double[] listaJuegos() {
@@ -267,6 +343,42 @@ public class Main {
                 "UltraRace", "CrazySped", "Coconut", "MotoGP", "Batman", "Ghost",
                 "AfterDark", "FunkyCats", "CongoBong", "ChoqueCar"
         };
+    }
+
+    public static String[] listaNombresComidas() {
+        return new String[]{
+                "Pizza Grande", "Pizza Familiar", "Hamburguesa de pollo",
+                "Helado Sublime", "Helado Trika", "Helado Chocolate", "Helado Vainilla", "Helado Fresa",
+                "Raspadilla", "Gaseosa Pepsi", "Gaseosa Coca Cola",
+                "Gaseosa Inka Cola", "Algodón de Azúcar", "PopCorn",
+                "Chocolate Princesa", "Papitas Lays", "Papitas Picantes", "Galleta Oreo",
+                "Galletas Casino", "Empanada"
+        };
+    }
+
+    public static Double[] listaComidas() {
+        Double[] comidas = new Double[20];
+        comidas[0] = 30.00;
+        comidas[1] = 50.00;
+        comidas[2] = 5.00;
+        comidas[3] = 3.00;
+        comidas[4] = 2.00;
+        comidas[5] = 3.50;
+        comidas[6] = 3.50;
+        comidas[7] = 3.50;
+        comidas[8] = 3.00;
+        comidas[9] = 3.00;
+        comidas[10] = 2.50;
+        comidas[11] = 2.50;
+        comidas[12] = 2.00;
+        comidas[13] = 3.00;
+        comidas[14] = 2.50;
+        comidas[15] = 1.50;
+        comidas[16] = 1.50;
+        comidas[17] = 1.00;
+        comidas[18] = 1.50;
+        comidas[19] = 3.00;
+        return comidas;
     }
 
 
