@@ -1,4 +1,5 @@
 import Utils.Colors;
+
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -8,22 +9,20 @@ import java.util.Random;
 
 public class Main {
 
-    private int cant_person;
-    private int opcion;
-    private String[] nombres;
-    private String[] apellidos;
-    private String[] dni;
-    private String[] sexo;
+    private static int cant_person;
+    private static int opcion;
+    private static String[] nombres;
+    private static String[] apellidos;
+    private static String[] dnis;
+    private static String[] sexos;
+    private static String[] claves;
+
     public static void main(String[] args) {
         List<String> comentarios = new ArrayList<>();
+
+        fedad();
+
         Scanner scanner = new Scanner(System.in);
-
-        System.out.println(Colors.ANSI_CYAN + "Ingrese Nuevo usuario del sistema" + Colors.ANSI_RESET);
-        String usernameSystem = scanner.nextLine();
-        System.out.println(Colors.ANSI_CYAN + "Ingrese Nueva Clave al sistema" + Colors.ANSI_RESET);
-        String passwordSystem = scanner.nextLine();
-        clearConsole();
-
 
         System.out.println(Colors.ANSI_CYAN + "==================================================" + Colors.ANSI_RESET);
         System.out.println(Colors.ANSI_CYAN + "Sistema Coney Park" + Colors.ANSI_RESET);
@@ -37,7 +36,7 @@ public class Main {
 
         clearConsole();
 
-        if (login(usuario, password, usernameSystem, passwordSystem)) {
+        if (login(usuario, password)) {
             System.out.println(Colors.ANSI_CYAN + "==================================================" + Colors.ANSI_RESET);
             System.out.println(Colors.ANSI_CYAN + "Sistema Coney Park" + Colors.ANSI_RESET);
             System.out.println(Colors.ANSI_CYAN + "Bienvenido" + Colors.ANSI_RESET);
@@ -116,6 +115,12 @@ public class Main {
                             } while (opc != 0);
                         }
                         break;
+                        case 5: {
+                            do {
+                                printInstrucciones();
+                                opc = scanner.nextInt();
+                            } while (opc != 0);
+                        }
                     }
 
                 } catch (Exception e) {
@@ -126,8 +131,9 @@ public class Main {
             System.out.println(Colors.ANSI_RED + "Ud. No tiene Acceso al Sistema" + Colors.ANSI_RESET);
         }
     }
+
     //EDY TOLA
-    public void fedad() {
+    public static void fedad() {
         Scanner usuario = new Scanner(System.in);
         System.out.println("-------------Bienvenido---------------");
         System.out.println("¿Quiere crear su tarjeta Coney?");
@@ -155,44 +161,43 @@ public class Main {
                 fDatosCliente();
                 String resultadoTarjeta = fTarjeta();
                 System.out.println(resultadoTarjeta);
-                double totalPagar = fPago();
-                System.out.println("Total a pagar: " + totalPagar);
             } else {
                 System.out.println("Venga con un mayor, no puede ingresar.");
             }
-
             System.out.println("Tarjeta Coney creada con éxito.");
         } else {
             System.out.println("Gracias por su visita. ¡Hasta luego!");
         }
-
-        usuario.close();
     }
-    public void fDatosCliente() {
+
+    public static void fDatosCliente() {
         Scanner butch = new Scanner(System.in);
         System.out.println("Ingrese la cantidad de personas a reservar tarjeta");
         cant_person = butch.nextInt();
         butch.nextLine();
 
-        this.nombres = new String[cant_person];
-        this.apellidos = new String[cant_person];
-        this.dni = new String[cant_person];
-        this.sexo = new String[cant_person];
+        nombres = new String[cant_person];
+        apellidos = new String[cant_person];
+        dnis = new String[cant_person];
+        sexos = new String[cant_person];
+        claves = new String[cant_person];
 
         for (int i = 0; i < cant_person; i++) {
             System.out.println("----DATOS DE LA PERSONA NRO # " + (i + 1));
-            System.out.println("Ingrese sus nombres");
+            System.out.println("Ingrese nuevo usuario al sistema");
             nombres[i] = butch.nextLine();
             System.out.println("Ingrese sus apellidos");
             apellidos[i] = butch.nextLine();
             System.out.println("Ingrese su nro dni");
-            dni[i] = butch.nextLine();
+            dnis[i] = butch.nextLine();
             System.out.println("Ingrese su sexo");
-            sexo[i] = butch.nextLine();
+            sexos[i] = butch.nextLine();
+            System.out.println("Ingrese nueva clave al sistema");
+            claves[i] = butch.nextLine();
         }
     }
 
-    public String fTarjeta() {
+    public static String fTarjeta() {
         Scanner frull = new Scanner(System.in);
         System.out.println("Seleccione su tarjeta:");
         System.out.println("Marque 1 para tarjeta simple");
@@ -211,11 +216,12 @@ public class Main {
         }
         return resultado;
     }
-    //EDY TOLA
-    public static boolean login(String usuario, String clave, String userSystem, String passwordSystem) {
-        if (usuario.equals(userSystem) && clave.equals(passwordSystem)) {
-            return true;
-        }
+
+    public static boolean login(String usuario, String clave) {
+        for (int i = 0; i < nombres.length; i++)
+            if (usuario.equals(nombres[i]) && clave.equals(claves[i])) {
+                return true;
+            }
         return false;
     }
 
@@ -224,7 +230,7 @@ public class Main {
         cualProducto();
         Scanner opcproducto = new Scanner(System.in);
         int productoEscogido = opcproducto.nextInt();
-        Double  tarjetaN;
+        Double tarjetaN;
         switch (productoEscogido) {
             case 1:
                 printJuegosDisponibles();
@@ -234,13 +240,14 @@ public class Main {
                 String producto = nombreJuego(opcJuego);
                 if (tarjeta > precio) {
                     imprimirBoleta(precio, producto);
-                    tarjetaN    =restarSaldoTareta(tarjeta, precio);
+                    tarjetaN = restarSaldoTareta(tarjeta, precio);
                     //return restarSaldoTareta(tarjeta, precio);
                 } else {
                     System.out.println(Colors.ANSI_RED + "Ud. No tiene Saldo" + Colors.ANSI_RESET);
-                    tarjetaN=tarjeta;
+                    tarjetaN = tarjeta;
                     //return tarjeta;
-                }break;
+                }
+                break;
             case 2:
                 printComidasDisponibles();
                 Scanner sc2 = new Scanner(System.in);
@@ -249,24 +256,25 @@ public class Main {
                 String producto1 = nombreComida(opcComida);
                 if (tarjeta > precio1) {
                     imprimirBoleta(precio1, producto1);
-                    tarjetaN=restarSaldoTareta(tarjeta, precio1);
+                    tarjetaN = restarSaldoTareta(tarjeta, precio1);
                     //return restarSaldoTareta(tarjeta, precio1);
                 } else {
                     System.out.println(Colors.ANSI_RED + "Ud. No tiene Saldo" + Colors.ANSI_RESET);
-                    tarjetaN=tarjeta;
-                   // return tarjeta;
-                }break;
+                    tarjetaN = tarjeta;
+                    // return tarjeta;
+                }
+                break;
             case 3:
-                if (tarjeta > 1){
-                    tarjetaN=jugar(tarjeta);
+                if (tarjeta > 1) {
+                    tarjetaN = jugar(tarjeta);
                     //return tarjeta;
                 } else {
                     System.out.println(Colors.ANSI_RED + "Ud. No tiene Saldo" + Colors.ANSI_RESET);
-                    tarjetaN=tarjeta;
+                    tarjetaN = tarjeta;
                 }
                 break;
             default:
-                tarjetaN=tarjeta;
+                tarjetaN = tarjeta;
 
         }
         return tarjetaN;
@@ -291,6 +299,7 @@ public class Main {
         System.out.println(Colors.ANSI_GREEN + "║   Gestión Ventas      2      ║" + Colors.ANSI_RESET);
         System.out.println(Colors.ANSI_GREEN + "║   Gestión Comentarios 3      ║" + Colors.ANSI_RESET);
         System.out.println(Colors.ANSI_GREEN + "║   Salir               4      ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║   Intrucciones        5      ║" + Colors.ANSI_RESET);
         System.out.println(Colors.ANSI_GREEN + "╚══════════════════════════════╝" + Colors.ANSI_RESET);
         System.out.println(Colors.ANSI_BLUE + "ingrese opción: " + Colors.ANSI_RESET);
 
@@ -305,6 +314,7 @@ public class Main {
         System.out.println(Colors.ANSI_GREEN + "╚══════════════════════════════╝" + Colors.ANSI_RESET);
         System.out.println(Colors.ANSI_BLUE + "ingrese opción: " + Colors.ANSI_RESET);
     }
+
     public static void printMenuComentarios() {
         System.out.println(Colors.ANSI_GREEN + "╔══════════════════════════════╗" + Colors.ANSI_RESET);
         System.out.println(Colors.ANSI_GREEN + "║        Menú Comentario       ║" + Colors.ANSI_RESET);
@@ -400,6 +410,33 @@ public class Main {
         System.out.println(Colors.ANSI_GREEN + "║  19 ║    Galeta Casino   ║   1.00 ║" + Colors.ANSI_RESET);
         System.out.println(Colors.ANSI_GREEN + "║  20 ║       Empanada     ║   3.00 ║" + Colors.ANSI_RESET);
         System.out.println(Colors.ANSI_GREEN + "╚═══════════════════════════════════╝" + Colors.ANSI_RESET);
+    }
+
+    public static void printInstrucciones() {
+        System.out.println(Colors.ANSI_GREEN + "╔═══════════════════════════════════╗" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║           Instrucciones           ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "╠═══════════════════════════════════╣" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║  Gestión Tarjeta: Tarjeta Única   ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║   - Recargas tu saldo             ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║   - Revisas tu saldo              ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║                                   ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║  Gestión Venta: Vender productos  ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║   - Se vende Juegos               ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║   - Se vende Alimentos            ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║   - Ganas Jugando                 ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║                                   ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║  Gestión Comentarios: Reseñas     ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║   - Pones comentario              ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║   - Ves si es valorada            ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║                                   ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║  RESTRICCIONES:                   ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║   - Se necesita primero recargar  ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║     la tarjeta                    ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║   - Para salir general en Menú    ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║     es 4, la mayoría son 0 que    ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "║     no son generales (Atrás)      ║" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + "╚═══════════════════════════════════╝" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_BLUE + "Ingrese 0 para volver atrás " + Colors.ANSI_RESET);
     }
 
     public static Double precioJuego(int juegoOpcion) {
@@ -522,18 +559,20 @@ public class Main {
         return comidas;
     }
 
-    public static List <String> agregarComentarios(List <String> comentarios){
+    public static List<String> agregarComentarios(List<String> comentarios) {
         System.out.println("Ingrese comentario");
         Scanner sc = new Scanner(System.in);
         String comentario = sc.nextLine();
         comentarios.add(comentario);
         return comentarios;
     }
-    public static void verComentarios (List <String> comentarios){
-        for (String comentario : comentarios){
+
+    public static void verComentarios(List<String> comentarios) {
+        for (String comentario : comentarios) {
             System.out.println(comentario);
         }
     }
+
     public static Double recargarSaldo(Double tarjeta) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Su saldo actual es : " + Colors.ANSI_BLUE + tarjeta + Colors.ANSI_RESET);
@@ -560,6 +599,7 @@ public class Main {
         System.out.println(Colors.ANSI_BLUE + "Total " + String.format("%.2f", total) + Colors.ANSI_RESET);
         System.out.println(Colors.ANSI_PURPLE + "===========================================================" + Colors.ANSI_RESET);
     }
+
     public static Double jugar(Double tarjeta) {
         tarjeta = tarjeta - 1.00;
         System.out.println("Le costó -1 sol");
@@ -600,8 +640,7 @@ public class Main {
             tarjeta = tarjeta + 5.00;
             System.out.println("Su saldo actual es : " + Colors.ANSI_BLUE + tarjeta + Colors.ANSI_RESET);
             imprimirBoleta(5.00, "Partida Ganada");
-        }
-        else {
+        } else {
             System.out.println("Ganaste " + triunfo + " veces. Perdiste " + perdidas + " veces.");
             System.out.println("Perdiste");
         }
@@ -631,6 +670,7 @@ public class Main {
         }
         return resultado;
     }
+
     public static void clearConsole() {
         for (int i = 0; i < 50; i++) {
             System.out.println();
