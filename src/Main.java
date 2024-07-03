@@ -211,21 +211,6 @@ public class Main {
         }
         return resultado;
     }
-
-    public double fPago() {
-        double subtotal, igv, totalpagar = 0;
-        if (opcion == 1) {
-            subtotal = cant_person * 50;
-            igv = subtotal * 0.18;
-            totalpagar = subtotal + igv;
-            System.out.println("--------------------------------");
-            System.out.println("SUBTOTAL " + subtotal);
-            System.out.println("IGV " + igv);
-            System.out.println("TOTAL A PAGAR " + totalpagar);
-            System.out.println("--------------------------------");
-        }
-        return totalpagar;
-    }
     //EDY TOLA
     public static boolean login(String usuario, String clave, String userSystem, String passwordSystem) {
         if (usuario.equals(userSystem) && clave.equals(passwordSystem)) {
